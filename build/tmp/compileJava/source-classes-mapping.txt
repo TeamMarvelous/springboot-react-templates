@@ -1,4 +1,4 @@
-com/example/springreacttemplate/ExampleController.java
- com.example.springreacttemplate.ExampleController
 com/example/springreacttemplate/SpringReactTemplateApplication.java
  com.example.springreacttemplate.SpringReactTemplateApplication
+com/example/springreacttemplate/ExampleController.java
+ com.example.springreacttemplate.ExampleController
