@@ -16,7 +16,7 @@ public class ExampleController {
     public Map<String, String> hello() {
         Map<String, String> json = new HashMap<>();
         json.put("message", "Spring - React Project templates!! " + new SimpleDateFormat("yyyy/MM/dd hh:mm:ss").format(new Date()));
-        json.put("url", "https://github.com/devdynam0507/spring-react-template");
+        json.put("url", "https://github.com/TeamMarvelous/spring-react-template");
 
         return json;
     }
