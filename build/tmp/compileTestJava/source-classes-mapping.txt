@@ -1,0 +1,2 @@
+com/example/springreacttemplate/SpringReactTemplateApplicationTests.java
+ com.example.springreacttemplate.SpringReactTemplateApplicationTests

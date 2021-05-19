@@ -1,0 +1,77 @@
+plugins {
+	id 'org.springframework.boot' version '2.4.5'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id "com.github.node-gradle.node" version "2.2.3"
+	id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+	maven { url "https://plugins.gradle.org/m2" }
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+def webappDir = "$projectDir/src/main/front/front"
+
+sourceSets {
+	main {
+		resources {
+			srcDirs = ["$webappDir/build", "$projectDir/src/main/resources"]
+		}
+	}
+}
+
+node {
+	version = '10.15.1' // 설치할 node 버전
+	yarnVersion = '1.13.0' // 설치할 yarn 버전
+	download = true
+	distBaseUrl = 'https://nodejs.org/dist' // node를 다운받을 수 있는 주소
+	workDir = file("${project.rootDir}/nodejs") // node를 설치할 폴더를 설정
+	yarnWorkDir = file("${project.rootDir}/yarn") // yarn을 설치할 폴더를 설정
+	npmWorkDir = file("${project.rootDir}/npm")
+}
+
+processResources {
+	dependsOn "buildReact"
+}
+
+task buildReact(type: Exec) {
+	dependsOn "installReact"
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+
+	if(System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "yarn.cmd", "build"
+	} else {
+        commandLine "yarn", "build"
+    }
+}
+
+task installReact(type: Exec) {
+	workingDir "$webappDir"
+	inputs.dir "$webappDir"
+	group = BasePlugin.BUILD_GROUP
+
+	if(System.getProperty("os.name").toLowerCase(Locale.ROOT).contains('windows')) {
+		commandLine "yarn.cmd", "audit", "fix"
+		commandLine "yarn.cmd", "install"
+	} else {
+		commandLine "yarn", "audit", "fix"
+		commandLine "yarn", "install"
+	}
+}
+
+
+test {
+
+	useJUnitPlatform()
+}
